@@ -91,7 +91,7 @@ def check_password_strength(password):
 
 def generate_password(length=12, use_special=True):
     if length < 8:
-        raise ValueError("Password length has to be at least 8 characters.")
+        length = 8;
     password = [
         random.choice(string.ascii_uppercase),
         random.choice(string.ascii_lowercase),
@@ -127,7 +127,7 @@ def generate_password(length=12, use_special=True):
           string.digits, and random.choice()
     """
     # TODO: Implement this function
-    pass
+
 
 
 # ============================================
