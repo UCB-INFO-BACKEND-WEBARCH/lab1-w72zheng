@@ -21,6 +21,38 @@ COMMON_PASSWORDS = [
 # ============================================
 
 def check_password_strength(password):
+    score = 0
+    length = len(password)
+    if length >= 8:
+        score += 20
+    if length >= 12:
+        score += 10
+    if any(char.isdigit() for char in password):
+        score += 20
+    if any(char.isupper() for char in password):
+        score += 20
+    if any(char.islower() for char in password):
+        score += 20
+    if any(char in string.punctuation for char in password):
+        score += 20
+    if password not in COMMON_PASSWORDS:
+        score += 10
+
+    if score < 40:
+        strength = "Weak"
+    elif score < 70:
+        strength = "Medium"
+    else:
+        strength = "Strong"
+
+    return {
+        "password": password,
+        "score": score,
+        "strength": strength,
+    }
+
+
+
     """
     Analyze password and return strength score.
     
@@ -51,7 +83,6 @@ def check_password_strength(password):
     Hint: Use .isdigit(), .isupper(), .islower() and string.punctuation
     """
     # TODO: Implement this function
-    pass
 
 
 # ============================================
@@ -59,6 +90,19 @@ def check_password_strength(password):
 # ============================================
 
 def generate_password(length=12, use_special=True):
+    if length < 8:
+        raise ValueError("Password length has to be at least 8 characters.")
+    password = [
+        random.choice(string.ascii_uppercase),
+        random.choice(string.ascii_lowercase),
+        random.choice(string.digits)
+    ]
+    characters = string.ascii_uppercase + string.ascii_lowercase + string.digits
+    if use_special:
+        characters += string.punctuation
+        password.append(random.choice(string.punctuation))
+    password += [random.choice(characters) for x in range(length - len(password))]
+    return ''.join(password)
     """
     Generate a random secure password.
     
